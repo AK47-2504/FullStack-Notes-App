@@ -25,6 +25,7 @@ html {
     "Open Sans",
     "Helvetica Neue",
     sans-serif;
+      
 }
 
 .note {
@@ -40,4 +41,11 @@ html {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
+}
+
+.note-create-form {
+display: flex;
+gap: 1rem;
+padding: 1rem;
+background-color: cadetblue;
 }
