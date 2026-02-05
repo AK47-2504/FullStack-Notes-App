@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
 const App = () => {
@@ -43,13 +45,20 @@ const App = () => {
       })
       .then(() => {
         fetchNotes();
+        toast.success("Note created successfully");
+        title.value = "";
+        description.value = "";
       });
   }
 
   function handleDeleteNote(noteId) {
-    prompt("Enter New Desctiption");
     axios.delete("http://localhost:3000/api/notes/" + noteId).then(() => {
       fetchNotes();
+      toast.success("Note Deleted Successfully", {
+        style: {
+          backgroundColor: "red",
+        },
+      });
     });
   }
 
@@ -68,12 +77,27 @@ const App = () => {
               : note,
           ),
         );
+        toast.success("Note Updated Successfully", {
+          style: {
+            backgroundColor: "orange",
+          },
+        });
       });
   }
 
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="colored"
+      />
       <form onSubmit={handleSubmit} className="note-create-form">
+        <h1>Create Note</h1>
         <input name="title" type="text" placeholder="Enter Title" />
         <input name="description" type="text" placeholder="Enter Description" />
         <button>Create Note</button>
@@ -85,6 +109,7 @@ const App = () => {
               <h2>{note.title}</h2>
               <p>{note.description}</p>
               <button
+                className="delete"
                 onClick={() => {
                   handleDeleteNote(note._id);
                 }}
@@ -92,6 +117,7 @@ const App = () => {
                 Delete
               </button>
               <button
+                className="edit"
                 onClick={() => {
                   noteEditHandler(note._id);
                 }}
